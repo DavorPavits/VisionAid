@@ -8,16 +8,17 @@ from io import BytesIO
 #Initilize Flask app
 app = Flask(__name__)
 
+CORS(app, origins=["http://localhost:5173"])
 
-#Set route
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World</p>"
+
 
 #Upload image route
-@app.route("/upload", methods=["GEt","POST"])
+@app.route("/", methods=["GET","POST", "OPTIONS"])
 def upload_image():
-    if request.method == "POSt":
+    if request.method == "OPTIONS":
+        return '', 200 
+    
+    if request.method == "POST":
         #Get Image from request
         if 'file' not in request.files:
             return jsonify({"error": "No file part in the request"}), 400
