@@ -1,0 +1,6 @@
+flask
+flask-cors
+fastai
+torch
+flasgger
+Pillow
