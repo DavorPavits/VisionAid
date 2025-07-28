@@ -3,10 +3,12 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from fastai.vision.all import load_learner, PILImage
 import traceback
+from flasgger import Swagger
 
 
 #Initilize Flask app
 app = Flask(__name__)
+swagger = Swagger(app)
 
 CORS(app, origins=["http://localhost:5173"])
 
@@ -16,6 +18,28 @@ learn_inf = load_learner("model/object_model.pkl")
 #Upload image route
 @app.route("/", methods=["POST", "OPTIONS"])
 def upload_and_predict():
+    """Endpoint to upload an image and get predictions.
+    ---
+    parameters:
+      - name: file
+        in: formData
+        type: file
+        required: true
+        description: The image file to be uploaded for prediction.
+    responses:
+      200:
+        description: A successful response with the prediction results.
+        schema:
+          type: object
+          properties:
+            prediction:
+              type: string
+              example: cat
+            probability:
+              type: number
+              format: float
+              example: 0.95
+    """
     if request.method == "OPTIONS":
         return '', 200 
     
