@@ -1,0 +1,18 @@
+#Use Python base image
+FROM python:3.9-slim
+
+#Set Working directory
+WORKDIR /app
+
+#Copy requirements and install
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+#Copy the rest of your code
+COPY ..
+
+#Expose port 7860
+EXPOSE 7860
+
+#RUN the flask app
+CMD ["python", "app-py"]
